@@ -4,6 +4,7 @@ import net.climaxmc.autokiller.checks.ClickSpeedCheck;
 import net.climaxmc.autokiller.checks.ConsistencyCheck;
 import net.climaxmc.autokiller.checks.ZeroDelayCheck;
 import net.climaxmc.autokiller.commands.AutoKillerCommand;
+import net.climaxmc.autokiller.events.AutoKillCheatEvent;
 import net.climaxmc.autokiller.packets.PacketCore;
 import net.climaxmc.autokiller.util.Config;
 import net.climaxmc.autokiller.util.LogFile;
@@ -51,23 +52,15 @@ public class AutoKiller extends JavaPlugin {
 
         for (Player players : Bukkit.getOnlinePlayers()) {
             if (players.isOp() || players.hasPermission("autokiller.staff")) {
-                if (cheat.equals("Click-Speed")) {
-
-                    String alert = config.getClickSpeedAlert().replace("%player%", player.getName());
-                    alert = alert.replace("%ping%", Utils.getPing(player) + "");
-                    alert = alert.replace("%cheat%", cheat);
-                    alert = alert.replace("%vl%", vl + "");
-
-                    players.sendMessage(ChatColor.translateAlternateColorCodes('&', alert));
-                } else {
-
-                    String alert = config.getNormalAlert().replace("%player%", player.getName());
-                    alert = alert.replace("%ping%", Utils.getPing(player) + "");
-                    alert = alert.replace("%cheat%", cheat);
-                    alert = alert.replace("%vl%", vl + "");
-
-                    players.sendMessage(ChatColor.translateAlternateColorCodes('&', alert));
-                }
+            	String alert = cheat.equals("Click-Speed") ? config.getClickSpeedAlert() : config.getNormalAlert();
+            	alert = alert.replace("%player%", player.getName())
+            			.replace("%ping%", Utils.getPing(player) + "")
+            			.replace("%cheat%", cheat)
+            			.replace("%vl%", vl + "");
+                players.sendMessage(ChatColor.translateAlternateColorCodes('&', alert));
+                
+                // Call Event to broadcast violation to other plugins
+                getServer().getPluginManager().callEvent(new AutoKillCheatEvent(uuid, vl, alert));
             }
         }
 
