@@ -55,10 +55,11 @@ public class AutoKiller extends JavaPlugin {
     			.replace("%ping%", Utils.getPing(player) + "")
     			.replace("%cheat%", cheat)
     			.replace("%vl%", vl + "");
+    	alert = ChatColor.translateAlternateColorCodes('&', alert);
 
         for (Player players : Bukkit.getOnlinePlayers()) {
             if (players.isOp() || players.hasPermission("autokiller.staff")) {
-                players.sendMessage(ChatColor.translateAlternateColorCodes('&', alert));                
+                players.sendMessage(alert);                
             }
         }
         
