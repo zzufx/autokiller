@@ -49,20 +49,21 @@ public class AutoKiller extends JavaPlugin {
         if (Utils.getPing(player) > config.getMaxPing()) {
             return;
         }
+        
+    	String alert = cheat.equals("Click-Speed") ? config.getClickSpeedAlert() : config.getNormalAlert();
+    	alert = alert.replace("%player%", player.getName())
+    			.replace("%ping%", Utils.getPing(player) + "")
+    			.replace("%cheat%", cheat)
+    			.replace("%vl%", vl + "");
 
         for (Player players : Bukkit.getOnlinePlayers()) {
             if (players.isOp() || players.hasPermission("autokiller.staff")) {
-            	String alert = cheat.equals("Click-Speed") ? config.getClickSpeedAlert() : config.getNormalAlert();
-            	alert = alert.replace("%player%", player.getName())
-            			.replace("%ping%", Utils.getPing(player) + "")
-            			.replace("%cheat%", cheat)
-            			.replace("%vl%", vl + "");
-                players.sendMessage(ChatColor.translateAlternateColorCodes('&', alert));
-                
-                // Call Event to broadcast violation to other plugins
-                getServer().getPluginManager().callEvent(new AutoKillCheatEvent(uuid, vl, alert));
+                players.sendMessage(ChatColor.translateAlternateColorCodes('&', alert));                
             }
         }
+        
+        // Call Event to broadcast violation to other plugins
+        getServer().getPluginManager().callEvent(new AutoKillCheatEvent(uuid, vl, alert));
 
         LogFile logFile = new LogFile(this);
         DateFormat df = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
