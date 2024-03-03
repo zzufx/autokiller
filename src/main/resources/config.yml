@@ -3,7 +3,7 @@
 ############################
 
 # Choose whether or not the plugin will run a command when the vl-to-ban is reached.
-ban: true
+ban: false
 
 # The ping at which all checks will be disabled to prevent false positives due to lag.
 max-ping: 260
@@ -14,8 +14,11 @@ ban-command: "ban %player% &6AutoKiller &f» &cUnfair Advantage"
 
 # You can customize the alert messages here.
 # Placeholders: %player% for player's name, %ping% for player's ping, %cheat% for the cheat type, %vl% for the violation level (VL is cps for clickspeed-alert).
-clickspeed-alert: "&8[&6AutoKiller&8] &c%player% &8[&e%ping%ms&8] &7is suspected for &c%cheat% &8[&b%vl% cps&8]"
-normal-alert: "&8[&6AutoKiller&8] &c%player% &8[&e%ping%ms&8] &7is suspected for &c%cheat% &7VL:%vl%"
+clickspeed-alert: "&8[&e%ping%ms&8] &7is suspected for &c%cheat% &8[&b%vl% cps&8]"
+normal-alert: "&8[&e%ping%ms&8] &7is suspected for &c%cheat% &7VL:%vl%"
+
+# Use Cheaty to broadcast alerts
+cheaty-notifications: true
 
 click-speed:
   vl-to-alert: 8

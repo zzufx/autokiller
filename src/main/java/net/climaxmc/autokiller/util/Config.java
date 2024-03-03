@@ -86,6 +86,14 @@ public class Config {
         return (String) config.get("normal-alert");
     }
 
+    public boolean isCheatyEnabled() {
+        if (config.get("cheaty-notifications") == null) {
+            config.set("cheaty-notifications", true);
+            saveConfig();
+        }
+        return (boolean) config.get("cheaty-notifications");
+    }
+
     public int getMaxSpeed() {
         if (config.get("click-speed.max-speed") == null) {
             config.set("click-speed.max-speed", 16);

@@ -57,9 +57,13 @@ public class AutoKiller extends JavaPlugin {
     			.replace("%vl%", vl + "");
     	alert = ChatColor.translateAlternateColorCodes('&', alert);
 
-        for (Player players : Bukkit.getOnlinePlayers()) {
-            if (players.isOp() || players.hasPermission("autokiller.staff")) {
-                players.sendMessage(alert);                
+        if (config.isCheatyEnabled()) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "cheaty notify " + player.getName() + " " + alert);
+        } else {
+            for (Player players : Bukkit.getOnlinePlayers()) {
+                if (players.isOp() || players.hasPermission("autokiller.staff")) {
+                    players.sendMessage(alert);                
+                }
             }
         }
         
